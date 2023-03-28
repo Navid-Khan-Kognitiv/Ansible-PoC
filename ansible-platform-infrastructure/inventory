@@ -1,0 +1,12 @@
+# To add a new host you should add the parameter conections in .ssh/config
+
+[linux_instances]
+smn-dev-vnet-bastion-vm
+
+[windows_instances]
+my_windows
+
+
+# [my_nested_group:children]
+# linux_instances
+# dockers

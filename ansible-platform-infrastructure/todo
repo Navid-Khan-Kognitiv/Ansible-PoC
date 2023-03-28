@@ -1,0 +1,5 @@
+Create a vaultpass file 
+- insert secret into vault pass 
+- used to encyrpt and decrypt secrets
+
+Azure User should be a privileged user 

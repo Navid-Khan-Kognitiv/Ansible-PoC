@@ -1,0 +1,22 @@
+---
+- name: Get latest kubectl version
+  uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: yes
+  register: version
+
+- name: Download the latest kubectl release
+  get_url:
+    url: https://dl.k8s.io/release/{{ version.content }}/bin/linux/amd64/kubectl
+    dest: /tmp/kubectl
+    #checksum: sha256:https://dl.k8s.io/{{ version.content }}/bin/linux/amd64/kubectl.sha256
+  register: kubectl
+
+- name: Move kubectl and change permissions
+  file:
+    src: /tmp/kubectl
+    dest: /usr/local/bin/kubectl
+    state: hard
+    owner: root
+    group: root
+    mode: +x

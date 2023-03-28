@@ -1,0 +1,19 @@
+---
+- name: Download azure-cli gpg key
+  get_url:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    dest: /etc/apt/trusted.gpg.d/microsoft.asc
+    force: false
+    validate_certs: false
+
+- name: Installing Azure Cli repo
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.asc] \
+      https://packages.microsoft.com/repos/azure-cli/ {{ ansible_distribution_release }} main"
+    state: present
+    update_cache: false
+
+- name: Install Azure Cli
+  apt:
+    name: azure-cli
+    state: present

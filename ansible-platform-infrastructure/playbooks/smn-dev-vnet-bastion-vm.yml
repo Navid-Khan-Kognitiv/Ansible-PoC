@@ -1,0 +1,15 @@
+---
+- name: Running playbook for smn-dev-vnet-bastion-vm
+  hosts: smn-dev-vnet-bastion-vm
+  become: true
+  connection: ssh
+  gather_facts: true
+  vars_files:
+    # - ../vault/sudo.yaml
+    - ../vault/smn-dev-vnet-bastion-vm.yaml
+
+  roles:
+    - base_configs_and_packages
+    - azure-cli
+    - kubectl
+    - users

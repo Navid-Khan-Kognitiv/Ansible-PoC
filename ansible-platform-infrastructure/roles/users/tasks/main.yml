@@ -1,0 +1,29 @@
+---
+
+- name: "Create user accounts"
+  user:
+    name: "{{ item.username }}"
+    groups: "{{ item.groups }}"
+    state: "present"
+    shell: "/bin/bash"
+  with_items: "{{ users }}"
+
+- name: "Remove user accounts"
+  user:
+    name: "{{ item }}"
+    state: "absent"
+  with_items: "{{ remove_users }}"
+  when: remove_users |bool
+
+- name: "Copy authorized keys"
+  authorized_key:
+    user: "{{ item.username }}"
+    key: "{{ lookup('file', 'files/'+ item.username + '.pub') }}"
+  with_items: "{{ users }}"
+
+- name: "Allow sudo without pass"
+  lineinfile:
+    dest: "/etc/sudoers"
+    state: "present"
+    regexp: "^%sudo"
+    line: "%sudo ALL=(ALL) NOPASSWD: ALL"
